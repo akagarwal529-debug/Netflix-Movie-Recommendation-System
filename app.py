@@ -34,11 +34,12 @@ h1, h2, h3 {
 </style>
 """, unsafe_allow_html=True)
 
-with open("netflix_recommendation_model.pkl", "rb") as file:
-    model = pickle.load(file)
+df = pd.read_csv("netflix_processed_dataset.csv")
 
-df = model["dataframe"]
-tfidf = model["tfidf_vectorizer"]
+from sklearn.feature_extraction.text import TfidfVectorizer
+tfidf = TfidfVectorizer(stop_words='english')
+tfidf_matrix = tfidf.fit_transform(df['combined_features'])
+
 
 st.markdown("<h1 style='text-align:center;'>🎬 Netflix Movie Recommendation System</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align:center;'>Content-Based Filtering</p>", unsafe_allow_html=True)
